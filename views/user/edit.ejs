@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+</head>
+<body>
+  <header>
+    <nav>
+      <ul>
+        <li>
+          <a href="/">Main page</a>        
+        </li>
+        <li>
+          <a href="/users">User index</a>      
+        </li>
+      </ul>
+
+    </nav>
+    <h1>Edit page for <%= user.name %></h1>
+  </header>
+  <main>
+    <form action="/users/<%= user.id %>?_method=PUT" method="POST">
+      <input type="name" name="name" value="<%= user.name %>" />
+      <button>Update this user</button>      
+    </form>
+  </main>
+</body>
+</html>
+
+</body>
+</html>

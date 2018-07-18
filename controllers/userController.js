@@ -4,7 +4,7 @@ const User = require('../models/user');
 
 // Index
 router.get('/', (req, res) => {
-  User.find({}, (err, foundUser) => {
+  User.find({}, (err, foundUsers) => {
     res.render('authors/index.ejs', {
       users: foundUsers
     });
@@ -13,7 +13,7 @@ router.get('/', (req, res) => {
 
 // New
 router.get('/new', (req, res) => {
-  res.redner('users/new.ejs')
+  res.render('users/new.ejs')
 });
 
 // Show

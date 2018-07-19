@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+</head>
+<body>
+  <header>
+    <nav>
+      <ul>
+        <li>
+          <a href="/">Main page</a>        
+        </li>
+        <li>
+          <a href="/photos">Photo index</a>      
+        </li>
+      </ul>
+
+    </nav>
+    <h1>Edit page for <%= photo.name %></h1>
+  </header>
+  <main>
+    <form action="/photos/<%= photo.id %>?_method=PUT" method="POST">
+      <input type="name" name="name" value="<%= photo.name %>" />
+      <button>Update this photo</button>      
+    </form>
+  </main>
+</body>
+</html>
+
+</body>
+</html>

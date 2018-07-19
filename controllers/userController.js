@@ -3,59 +3,76 @@ const router = express.Router();
 const User = require('../models/user');
 
 // Index
-router.get('/', (req, res) => {
-  User.find({}, (err, foundUsers) => {
-    res.render('authors/index.ejs', {
-      users: foundUsers
-    });
-  });
+router.get('/', (req, res, next) => {
+  try {
+    const foundUsers = await User.find({});
+      res.render('index.ejs', {
+        users: foundUsers
+      });
+  } catch (err) {
+    console.log(err);
+    next(err)
+  }
 });
+
 
 // New
 router.get('/new', (req, res) => {
-  res.render('users/new.ejs')
+  res.render('new.ejs')
 });
+
 
 // Show
 router.get('/:id', (req, res) => {
   User.findById(req.params.id, (err, foundUser) => {
-    res.render('users/show.ejs', {
+    res.render('show.ejs', {
       user: foundUser
     });
   });
 });
+
 
 // Create
-router.post('/', (req, res) => {
-  console.log(req.body)
-  User.create(req.body, (err, createdUser) => {
-    console.log(createdUser, ' this is the createdUser');
-    res.redirect('/users');
-  });
+router.post('/', async (req, res) => {
+  try {
+    const createdUser = await User.create(req.body);
+      console.log(createdUser, ' this is the createdUser');
+      res.redirect('/users');
+  } catch (err) {
+    res.send(err)
+  }
 });
+
 
 // Delete
-router.delete('/:id', (req, res) => {
-  User.findByIdAndRemove(req.params.id, (err, deletedUser) => {
-    console.log(deletedUser, ' this is deletedUser');
-      res.render('users/edit.ejs', {
-      });
+router.delete('/:id', async (req, res) => {
+  try {
+    const deletedUser = await User.findByIdAndRemove(req.params.id);
+      res.redirect('/users')
+    } catch (err) {
+      res.send(err)
+    }
   });
-});
 
 // Edit
-router.get('/:id/edit', (req, res) => {
-  User.findById(req.params.id, (err, foundUser) => {
-    res.render('users/edit.ejs', {
+router.get('/:id/edit', async (req, res) => {
+  try {
+    const foundUser = await User.findById(req.params.id);
+    res.render('edit.ejs', {
       user: foundUser
-    });
-  });
+    })
+    res.redirect('/user');
+  } catch (err) {
+    res.send(err);
+  }
 });
-router.put('/:id', (req, res) => {
-  User.findByIdAndUpdate(req.params.id, req.body, {new: true}, (err, updatedUser) => {
-    console.log(updatedUser, " This is the updated user");
-    res.redirect('/users');
-  });
+router.put('/:id', async (req, res) => {
+  try {
+    const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body, {new: true});
+    res.redirect('/user');
+  } catch (err) {
+    res.send(err);
+  }
 });
 
 module.exports = router;
